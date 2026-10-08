@@ -16,7 +16,7 @@
 
 **Fertig, wenn:** Startseite im Browser und in Handybreite geprüft; die verliehene „Systemkamera“ fehlt.
 
-### ⬜ Issue 2 — Detailseite
+### ✅ Issue 2 — Detailseite
 **Ziel:** Ein Klick auf einen Gegenstand zeigt Beschreibung und alle Details auf einer eigenen Seite – damit Studierende entscheiden können, ob sie ihn ausleihen.
 **Nicht im Umfang:** Anfragen, Bearbeiten, Teilen.
 **Akzeptanzkriterien:**
