@@ -26,7 +26,7 @@
 
 **Fertig, wenn:** zwei Gegenstände angeklickt, Adresse kopiert und in neuem Tab geöffnet, zurück zur Liste; eine erfundene Adresse aufgerufen und die Meldung gesehen.
 
-### ⬜ Issue 3 — Nach Kategorie filtern
+### ✅ Issue 3 — Nach Kategorie filtern
 **Ziel:** Studierende filtern die Liste nach Kategorie (Mode, Wohnen & Deko, Technik, Freizeit) – damit sie schneller finden, was sie brauchen.
 **Nicht im Umfang:** Freitextsuche, mehrere Kategorien gleichzeitig.
 **Akzeptanzkriterien:**

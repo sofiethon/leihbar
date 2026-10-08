@@ -1,10 +1,16 @@
 import { Hand, Recycle, Search } from "lucide-react";
 import FeatureCard from "@/components/FeatureCard";
 import GegenstandKarte from "@/components/GegenstandKarte";
-import { gegenstaende } from "@/data/gegenstaende";
+import KategorieFilter from "@/components/KategorieFilter";
+import { gegenstaende, kategorien } from "@/data/gegenstaende";
 
-export default function Home() {
-  const verfuegbar = gegenstaende.filter((gegenstand) => gegenstand.verfuegbar);
+export default async function Home({ searchParams }: PageProps<"/">) {
+  const { kategorie } = await searchParams;
+  // Nur eine bekannte Kategorie gilt als Filter; alles andere zeigt „Alle“.
+  const aktiv = kategorien.find((name) => name === kategorie);
+  const verfuegbar = gegenstaende.filter(
+    (gegenstand) => gegenstand.verfuegbar && (!aktiv || gegenstand.kategorie === aktiv),
+  );
 
   return (
     <main id="top" className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 py-12 sm:block">
@@ -51,9 +57,10 @@ export default function Home() {
       </section>
 
       <section id="gegenstaende" aria-labelledby="gegenstaende-titel">
-        <h2 id="gegenstaende-titel" className="mb-6 text-2xl font-semibold">
+        <h2 id="gegenstaende-titel" className="mb-4 text-2xl font-semibold">
           Das kannst du gerade ausleihen
         </h2>
+        <KategorieFilter aktiv={aktiv} />
         {verfuegbar.length > 0 ? (
           <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {verfuegbar.map((gegenstand, index) => (
