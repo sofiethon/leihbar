@@ -94,8 +94,49 @@
 
 **Fertig, wenn:** drei Vorschläge erzeugt, Rate Limit ausgelöst, Netzwerk-Tab ohne Key.
 
+## Ergänzungen aus dem Brainstorming (nach Issue 7)
+
+### ⬜ Issue 9 — Nachricht und Kontakt bei der Anfrage
+**Ziel:** Wer einen Gegenstand anfragt, schreibt einen kurzen Satz und hinterlässt seine E-Mail, und die Besitzerin sieht beides – damit sie weiß, wer etwas will, und sich melden kann.
+**Nicht im Umfang:** Chat in der App, Antworten in der App, Annehmen oder Ablehnen, E-Mail-Benachrichtigungen.
+**Akzeptanzkriterien:**
+- Gegeben ich bin angemeldet, wenn ich „Ausleihen anfragen“ klicke, dann kann ich einen kurzen Satz schreiben, bevor die Anfrage abgeschickt wird; meine E-Mail wird mitgegeben.
+- Gegeben jemand hat meinen Gegenstand angefragt, wenn ich `/anfragen-an-mich` öffne, dann sehe ich Gegenstand, Nachricht und E-Mail der anfragenden Person.
+- Gegeben ich habe keine Anfragen erhalten, dann sehe ich einen Hinweis mit Link zur Liste.
+- Gegeben die Nachricht ist länger als 300 Zeichen, dann sehe ich eine verständliche Fehlermeldung und die Anfrage wird nicht abgeschickt.
+- Gegeben ich bin nicht die Besitzerin, dann sehe ich die Nachrichten zu fremden Gegenständen nicht (Row Level Security).
+
+**Fertig, wenn:** mit zwei Testkonten angefragt und auf der Seite des anderen Kontos gesehen; zu lange Nachricht ausprobiert; mit dem dritten Konto nichts Fremdes sichtbar.
+
+### ⬜ Issue 10 — Region-Filter (Wien / Niederösterreich)
+**Ziel:** Studierende grenzen die Liste auf Wien oder Niederösterreich ein – damit sie nur Gegenstände sehen, die sie erreichen können.
+**Nicht im Umfang:** Umkreissuche, Karte, Bezirke.
+**Akzeptanzkriterien:**
+- Gegeben ich biete einen Gegenstand an, dann muss ich eine Region (Wien oder Niederösterreich) wählen; ohne Auswahl sehe ich eine Fehlermeldung.
+- Gegeben ich klicke auf „Wien“, dann sehe ich nur Gegenstände aus Wien und der Filter ist sichtbar aktiv.
+- Gegeben ich klicke auf „Alle Regionen“, dann sehe ich wieder alles.
+- Gegeben ich habe eine Kategorie und eine Region gewählt, dann sehe ich nur Gegenstände, die zu beiden passen.
+
+**Fertig, wenn:** zwei Gegenstände in verschiedenen Regionen angeboten, beide Filter einzeln und kombiniert geprüft, auch am Handy (375 px).
+
+### ⬜ Issue 11 — „Gerade verliehen“ umschalten
+**Ziel:** Die Besitzerin markiert ihren Gegenstand per Klick als verliehen oder wieder frei – damit die Liste aktuell bleibt und niemand etwas anfragt, das nicht da ist.
+**Nicht im Umfang:** Verleihen an eine bestimmte Person, Rückgabedatum, Erinnerungen.
+**Akzeptanzkriterien:**
+- Gegeben ich bin angemeldet und der Gegenstand gehört mir, wenn ich „Als verliehen markieren“ klicke, dann verschwindet er aus der Liste der anderen.
+- Gegeben mein Gegenstand ist als verliehen markiert, wenn ich „Wieder freigeben“ klicke, dann erscheint er wieder in der Liste.
+- Gegeben der Gegenstand gehört einer anderen Person, dann sehe ich den Button nicht und kann den Status nicht ändern (Row Level Security).
+
+**Fertig, wenn:** mit Konto A umgeschaltet und mit Konto B geprüft, dass der Gegenstand erscheint und verschwindet; Konto B sieht keinen Button.
+
 ## Später / Ideen (nicht im MVP)
 - Anfrage annehmen oder ablehnen (Besitzer*in)
+- Zeitraum bei der Anfrage wählen
 - Kalender mit freien Tagen
 - Fotos hochladen
+- Meine Angebote (ansehen und löschen)
+- Suchfeld
+- Nur-Uni-Mail beim Anmelden
 - Kaution und Bewertungen
+
+**Bewusst nicht:** Gesuche („Ich suche …“)
