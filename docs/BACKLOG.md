@@ -6,7 +6,7 @@
 
 ## Tag 1 — Übung 2: MVP ohne Datenbank
 
-### ⬜ Issue 1 — Liste mit Beispieldaten
+### ✅ Issue 1 — Liste mit Beispieldaten
 **Ziel:** Auf der Startseite sehen Studierende alle Gegenstände, die gerade ausleihbar sind – damit sie wissen, was es am Campus gibt.
 **Nicht im Umfang:** Suche, Filter, Detailseite, Datenbank (Beispieldaten aus `src/data/gegenstaende.ts`, Bilder aus `public/gegenstaende/`).
 **Akzeptanzkriterien:**
