@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Hand, Recycle, Search } from "lucide-react";
 import FeatureCard from "@/components/FeatureCard";
 import GegenstandKarte from "@/components/GegenstandKarte";
@@ -14,27 +15,75 @@ export default async function Home({ searchParams }: PageProps<"/">) {
 
   return (
     <main id="top" className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 py-12 sm:block">
-      <section className="mb-14">
-        <p className="mb-3 inline-block rounded-full bg-accent-soft px-3 py-1 text-xs font-medium text-foreground">
-          NDU · Wintersemester 2026
-        </p>
-        <h1 className="mb-4 max-w-2xl text-4xl font-bold leading-tight sm:text-5xl">
-          Leihen statt kaufen.
-        </h1>
-        <p className="mb-8 max-w-xl text-lg text-muted">
-          Abendkleid für den Ball, Akkuschrauber fürs WG-Regal, Zelt fürs
-          Festival – am Campus hat es schon jemand. Anbieten, finden, anfragen.
-        </p>
-        <div className="flex flex-wrap gap-3">
-          <a
-            href="#gegenstaende"
-            className="rounded-xl bg-accent px-5 py-3 font-medium text-white shadow-sm transition hover:opacity-90"
+      <section className="mb-14 grid overflow-hidden border-2 border-border lg:grid-cols-[3fr_2fr]">
+        <div className="erscheinen flex flex-col justify-between gap-8 border-b-2 border-border p-6 sm:p-10 lg:border-b-0 lg:border-r-2">
+          <p className="inline-block self-start border-2 border-border bg-card px-3 py-1 text-sm font-medium">
+            NDU · Wintersemester 2026
+          </p>
+          <div>
+            <p className="mb-2 font-display text-2xl font-medium sm:text-3xl">
+              leihen statt kaufen.
+            </p>
+            <h1 className="font-display text-[clamp(3.5rem,19vw,8.5rem)] font-black leading-[0.85] tracking-tight">
+              leihbar.
+            </h1>
+          </div>
+          <p className="max-w-md text-lg text-muted">
+            Abendkleid für den Ball, Akkuschrauber fürs WG-Regal, Zelt fürs
+            Festival – am Campus hat es schon jemand. Anbieten, finden, anfragen.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <a
+              href="#gegenstaende"
+              className="inline-flex min-h-11 items-center bg-foreground px-6 font-medium text-card transition hover:bg-card hover:text-foreground"
+            >
+              Gegenstände ansehen
+            </a>
+            <span className="inline-flex min-h-11 items-center border-2 border-border px-5 text-muted">
+              Anbieten – kommt an Tag 2
+            </span>
+          </div>
+        </div>
+
+        {/* Foto-Collage: ein großes Bild, darunter zwei kleine, getrennt durch Rasterlinien. */}
+        <div className="grid grid-cols-2">
+          <div
+            className="erscheinen relative col-span-2 aspect-[4/3] border-b-2 border-border"
+            style={{ "--i": 2 } as React.CSSProperties}
           >
-            Gegenstände ansehen
-          </a>
-          <span className="rounded-xl border border-border px-5 py-3 text-muted">
-            Anbieten – kommt an Tag 2
-          </span>
+            <Image
+              src="/gegenstaende/campingzelt.jpg"
+              alt=""
+              fill
+              sizes="(min-width: 1024px) 40vw, 100vw"
+              className="object-cover"
+              priority
+            />
+          </div>
+          <div
+            className="erscheinen relative aspect-square border-r-2 border-border"
+            style={{ "--i": 3 } as React.CSSProperties}
+          >
+            <Image
+              src="/gegenstaende/abendkleid.jpg"
+              alt=""
+              fill
+              sizes="(min-width: 1024px) 20vw, 50vw"
+              className="object-cover"
+            />
+          </div>
+          <div
+            className="erscheinen relative aspect-square"
+            style={{ "--i": 4 } as React.CSSProperties}
+          >
+            <Image
+              src="/gegenstaende/akkuschrauber.jpg"
+              alt=""
+              fill
+              sizes="(min-width: 1024px) 20vw, 50vw"
+              className="object-cover"
+            />
+          </div>
         </div>
       </section>
 
@@ -57,20 +106,24 @@ export default async function Home({ searchParams }: PageProps<"/">) {
       </section>
 
       <section id="gegenstaende" aria-labelledby="gegenstaende-titel">
-        <h2 id="gegenstaende-titel" className="mb-4 text-2xl font-semibold">
+        <h2 id="gegenstaende-titel" className="mb-4 font-display text-3xl font-extrabold sm:text-4xl">
           Das kannst du gerade ausleihen
         </h2>
         <KategorieFilter aktiv={aktiv} />
         {verfuegbar.length > 0 ? (
           <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {verfuegbar.map((gegenstand, index) => (
-              <li key={gegenstand.id}>
-                <GegenstandKarte gegenstand={gegenstand} prioritaet={index === 0} />
+              <li
+                key={gegenstand.id}
+                className="erscheinen"
+                style={{ "--i": Math.min(index + 5, 10) } as React.CSSProperties}
+              >
+                <GegenstandKarte gegenstand={gegenstand} />
               </li>
             ))}
           </ul>
         ) : (
-          <p className="rounded-2xl border border-dashed border-border bg-card p-8 text-center text-muted">
+          <p className="border-2 border-dashed border-border bg-card p-8 text-center text-muted">
             Gerade ist nichts zum Ausleihen da. Schau bald wieder vorbei.{" "}
             <a href="#top" className="inline-flex min-h-11 items-center underline">
               Zurück nach oben

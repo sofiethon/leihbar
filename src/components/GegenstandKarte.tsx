@@ -14,8 +14,8 @@ export default function GegenstandKarte({ gegenstand, prioritaet = false }: Prop
   const { id, titel, kategorie, preisProTag, ort, besitzer, bild } = gegenstand;
 
   return (
-    <article className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
-      <div className="relative aspect-[4/3] w-full bg-accent-soft">
+    <article className="relative flex h-full flex-col overflow-hidden border-2 border-border bg-card transition duration-200 hover:-translate-y-1 hover:shadow-[6px_6px_0_var(--foreground)] focus-within:-translate-y-1 focus-within:shadow-[6px_6px_0_var(--foreground)]">
+      <div className="relative aspect-[4/3] w-full border-b-2 border-border bg-accent-soft">
         <Image
           src={bild}
           alt=""
@@ -30,13 +30,13 @@ export default function GegenstandKarte({ gegenstand, prioritaet = false }: Prop
           <span className="sr-only">Kategorie: </span>
           {kategorie}
         </p>
-        <h3 className="font-semibold leading-snug">
+        <h3 className="font-display text-xl font-extrabold leading-tight">
           {/* Der unsichtbare Überzug (after:) macht die ganze Karte anklickbar. */}
           <Link href={`/gegenstaende/${id}`} className="after:absolute after:inset-0">
             {titel}
           </Link>
         </h3>
-        <p className="font-medium">{preisText(preisProTag)}</p>
+        <p className="font-display font-extrabold">{preisText(preisProTag)}</p>
         <dl className="mt-auto flex flex-col gap-1 pt-2 text-sm text-muted">
           <div className="flex items-start gap-2">
             <dt className="sr-only">Ort:</dt>
