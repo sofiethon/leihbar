@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Hand, Recycle, Search } from "lucide-react";
 import FeatureCard from "@/components/FeatureCard";
 import GegenstandKarte from "@/components/GegenstandKarte";
@@ -15,16 +14,17 @@ export default async function Home({ searchParams }: PageProps<"/">) {
 
   return (
     <main id="top" className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 py-12 sm:block">
-      <section className="mb-14 grid overflow-hidden border-2 border-border lg:grid-cols-[3fr_2fr]">
-        <div className="erscheinen flex flex-col justify-between gap-8 border-b-2 border-border p-6 sm:p-10 lg:border-b-0 lg:border-r-2">
+      <section className="mb-14 overflow-hidden border-2 border-border">
+        <div className="erscheinen flex flex-col justify-between gap-8 p-6 sm:p-10">
           <p className="inline-block self-start border-2 border-border bg-card px-3 py-1 text-sm font-medium">
             NDU · Wintersemester 2026
           </p>
-          <div>
-            <p className="mb-2 font-display text-2xl font-medium sm:text-3xl">
+          {/* @container: die Überschrift misst sich an der Breite dieses Kastens und füllt ihn. */}
+          <div className="@container">
+            <p className="mb-2 font-display text-2xl font-medium sm:text-4xl">
               leihen statt kaufen.
             </p>
-            <h1 className="font-display text-[clamp(3.5rem,19vw,8.5rem)] font-black leading-[0.85] tracking-tight">
+            <h1 className="font-display text-[27cqw] font-black leading-[0.85] tracking-tight">
               leihbar.
             </h1>
           </div>
@@ -42,47 +42,6 @@ export default async function Home({ searchParams }: PageProps<"/">) {
             <span className="inline-flex min-h-11 items-center border-2 border-border px-5 text-muted">
               Anbieten – kommt an Tag 2
             </span>
-          </div>
-        </div>
-
-        {/* Foto-Collage: ein großes Bild, darunter zwei kleine, getrennt durch Rasterlinien. */}
-        <div className="grid grid-cols-2">
-          <div
-            className="erscheinen relative col-span-2 aspect-[4/3] border-b-2 border-border"
-            style={{ "--i": 2 } as React.CSSProperties}
-          >
-            <Image
-              src="/gegenstaende/campingzelt.jpg"
-              alt=""
-              fill
-              sizes="(min-width: 1024px) 40vw, 100vw"
-              className="object-cover"
-              priority
-            />
-          </div>
-          <div
-            className="erscheinen relative aspect-square border-r-2 border-border"
-            style={{ "--i": 3 } as React.CSSProperties}
-          >
-            <Image
-              src="/gegenstaende/abendkleid.jpg"
-              alt=""
-              fill
-              sizes="(min-width: 1024px) 20vw, 50vw"
-              className="object-cover"
-            />
-          </div>
-          <div
-            className="erscheinen relative aspect-square"
-            style={{ "--i": 4 } as React.CSSProperties}
-          >
-            <Image
-              src="/gegenstaende/akkuschrauber.jpg"
-              alt=""
-              fill
-              sizes="(min-width: 1024px) 20vw, 50vw"
-              className="object-cover"
-            />
           </div>
         </div>
       </section>
