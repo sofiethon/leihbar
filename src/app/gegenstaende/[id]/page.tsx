@@ -4,7 +4,9 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, MapPin, User } from "lucide-react";
 import AnfrageBereich from "@/components/AnfrageBereich";
 import GegenstandBild from "@/components/GegenstandBild";
+import HerzButton from "@/components/HerzButton";
 import { ladeAnfrageStatus } from "@/lib/anfragen";
+import { ladeGemerkteIds } from "@/lib/favoriten";
 import { preisText } from "@/lib/format";
 import { ladeGegenstand } from "@/lib/gegenstaende";
 
@@ -26,7 +28,7 @@ export default async function GegenstandSeite({
     notFound();
   }
 
-  const anfrageStatus = await ladeAnfrageStatus(id);
+  const [anfrageStatus, gemerkt] = await Promise.all([ladeAnfrageStatus(id), ladeGemerkteIds()]);
 
   const { titel, kategorie, beschreibung, besitzer, ort, preisProTag, verfuegbar, bild } =
     gegenstand;
@@ -57,7 +59,16 @@ export default async function GegenstandSeite({
           </p>
           <h1 className="text-3xl font-bold leading-tight">{titel}</h1>
           <p className="text-lg font-medium">{preisText(preisProTag)}</p>
-          <AnfrageBereich itemId={id} verfuegbar={verfuegbar} status={anfrageStatus} />
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
+            <AnfrageBereich itemId={id} verfuegbar={verfuegbar} status={anfrageStatus} />
+            <HerzButton
+              itemId={id}
+              titel={titel}
+              gemerkt={gemerkt.has(id)}
+              zurueck={`/gegenstaende/${id}`}
+              variante="text"
+            />
+          </div>
           {!verfuegbar && (
             <p className="rounded-xl bg-accent-soft px-4 py-3 text-foreground">
               Dieser Gegenstand ist gerade verliehen.

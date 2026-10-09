@@ -168,6 +168,20 @@
 
 **Fertig, wenn:** ein Gegenstand angeboten und Meldung und Hervorhebung gesehen, neu geladen; einmal mit leerem Titel versucht; einmal mit „Bewegung reduzieren“.
 
+## Neu — noch nicht priorisiert
+
+### 🔧 Issue 15 — Gegenstände merken
+**Ziel:** Angemeldete Studierende markieren Gegenstände mit einem Herz und finden sie unter „Gemerkt“ wieder – damit sie sich interessante Dinge für ein späteres Projekt aufheben können, ohne sofort anzufragen.
+**Nicht im Umfang:** Benachrichtigung, wenn ein gemerkter Gegenstand verliehen wird, Herz-Zähler für andere, Teilen der Merkliste, Merken ohne Konto.
+**Akzeptanzkriterien:**
+- Gegeben ich bin angemeldet, wenn ich in der Liste oder auf der Detailseite auf das Herz eines Gegenstands klicke, dann ist das Herz gefüllt, und wenn ich erneut klicke, ist es wieder leer.
+- Gegeben ich habe 2 Gegenstände gemerkt, wenn ich „Gemerkt“ öffne, dann sehe ich genau diese 2; die Herzen sind nach einem Reload noch gefüllt.
+- Gegeben ich habe nichts gemerkt, wenn ich „Gemerkt“ öffne, dann sehe ich einen Satz und einen Link zur Liste.
+- Gegeben ich bin nicht angemeldet, wenn ich auf ein Herz klicke, dann werde ich zur Anmeldung geleitet, und nichts wird gespeichert; „Gemerkt“ erreiche ich nur angemeldet.
+- Gegeben eine andere Person hat Gegenstände gemerkt, dann sehe ich ihre Merkliste nicht und kann sie auch direkt in der Datenbank weder lesen noch ändern (Row Level Security).
+
+**Fertig, wenn:** mit einem Testkonto zwei Gegenstände gemerkt, einen wieder entfernt, neu geladen und „Gemerkt“ geöffnet; mit einem zweiten Konto geprüft, dass dort nichts steht; ohne Anmeldung aufs Herz geklickt; alles auch in Handybreite (375 px), Herz und Header einzeilig, Herz mindestens 44 px groß; RLS-Prüfung mit dem Supabase-MCP ohne Lücke.
+
 ## Später / Ideen (nicht im MVP)
 - Zeitraum bei der Anfrage wählen
 - Kalender mit freien Tagen

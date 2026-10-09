@@ -4,13 +4,15 @@ import FeatureCard from "@/components/FeatureCard";
 import GegenstandKarte from "@/components/GegenstandKarte";
 import KategorieFilter from "@/components/KategorieFilter";
 import { kategorien } from "@/data/gegenstaende";
+import { ladeGemerkteIds } from "@/lib/favoriten";
 import { ladeVerfuegbareGegenstaende } from "@/lib/gegenstaende";
 
 export default async function Home({ searchParams }: PageProps<"/">) {
   const { kategorie } = await searchParams;
   // Nur eine bekannte Kategorie gilt als Filter; alles andere zeigt „Alle“.
   const aktiv = kategorien.find((name) => name === kategorie);
-  const verfuegbar = await ladeVerfuegbareGegenstaende(aktiv);
+  const [verfuegbar, gemerkt] = await Promise.all([ladeVerfuegbareGegenstaende(aktiv), ladeGemerkteIds()]);
+  const zurueck = aktiv ? `/?kategorie=${encodeURIComponent(aktiv)}` : "/";
 
   return (
     <main id="top" className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 py-12 sm:block">
@@ -80,7 +82,7 @@ export default async function Home({ searchParams }: PageProps<"/">) {
                 className="erscheinen"
                 style={{ "--i": Math.min(index + 5, 10) } as React.CSSProperties}
               >
-                <GegenstandKarte gegenstand={gegenstand} />
+                <GegenstandKarte gegenstand={gegenstand} gemerkt={gemerkt.has(gegenstand.id)} zurueck={zurueck} />
               </li>
             ))}
           </ul>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { MapPin, User } from "lucide-react";
 import GegenstandBild from "@/components/GegenstandBild";
+import HerzButton from "@/components/HerzButton";
 import type { Gegenstand } from "@/data/gegenstaende";
 import { preisText } from "@/lib/format";
 
@@ -10,9 +11,13 @@ type Props = {
   prioritaet?: boolean;
   /** Welche Überschrift der Titel ist – passend zur Seite, auf der die Karte steht. */
   titelEbene?: "h2" | "h3";
+  /** Ob die angemeldete Person den Gegenstand gemerkt hat. */
+  gemerkt?: boolean;
+  /** Seite, auf die man nach der Anmeldung vom Herz zurückkommt. */
+  zurueck?: string;
 };
 
-export default function GegenstandKarte({ gegenstand, prioritaet = false, titelEbene: Titel = "h3" }: Props) {
+export default function GegenstandKarte({ gegenstand, prioritaet = false, titelEbene: Titel = "h3", gemerkt = false, zurueck = "/" }: Props) {
   const { id, titel, kategorie, preisProTag, ort, besitzer, bild } = gegenstand;
 
   return (
@@ -25,6 +30,7 @@ export default function GegenstandKarte({ gegenstand, prioritaet = false, titelE
           prioritaet={prioritaet}
         />
       </div>
+      <HerzButton itemId={id} titel={titel} gemerkt={gemerkt} zurueck={zurueck} />
       <div className="flex flex-1 flex-col gap-2 p-4">
         <p className="text-sm text-muted">
           <span className="sr-only">Kategorie: </span>
