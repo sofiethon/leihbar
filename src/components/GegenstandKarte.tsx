@@ -21,7 +21,7 @@ export default function GegenstandKarte({ gegenstand, prioritaet = false, titelE
   const { id, titel, kategorie, preisProTag, ort, besitzer, bild } = gegenstand;
 
   return (
-    <article className="platte flex h-full min-w-0 flex-col overflow-hidden break-words hyphens-auto bg-card transition hover:bg-accent-soft focus-within:bg-accent-soft">
+    <article className="platte flex h-full min-w-0 flex-col overflow-hidden break-words hyphens-auto border-2 border-border bg-card transition hover:bg-accent-soft focus-within:bg-accent-soft">
       <div className="relative aspect-square w-full bg-accent-soft">
         <GegenstandBild
           bild={bild}

@@ -53,7 +53,7 @@ export default async function Home({ searchParams }: PageProps<"/">) {
         </h2>
         <KategorieFilter aktiv={aktiv} />
         {verfuegbar.length > 0 ? (
-          <ul className="grid grid-cols-2 gap-1 border-2 border-border bg-fuge lg:grid-cols-3">
+          <ul className="grid grid-cols-2 gap-1 lg:grid-cols-3">
             {verfuegbar.map((gegenstand) => (
               <li key={gegenstand.id}>
                 <GegenstandKarte gegenstand={gegenstand} gemerkt={gemerkt.has(gegenstand.id)} zurueck={zurueck} />
