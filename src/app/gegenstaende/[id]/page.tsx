@@ -1,20 +1,16 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, MapPin, User } from "lucide-react";
-import { gegenstaende } from "@/data/gegenstaende";
+import GegenstandBild from "@/components/GegenstandBild";
 import { preisText } from "@/lib/format";
-
-function findeGegenstand(id: string) {
-  return gegenstaende.find((gegenstand) => gegenstand.id === id);
-}
+import { ladeGegenstand } from "@/lib/gegenstaende";
 
 export async function generateMetadata({
   params,
 }: PageProps<"/gegenstaende/[id]">): Promise<Metadata> {
   const { id } = await params;
-  const gegenstand = findeGegenstand(id);
+  const gegenstand = await ladeGegenstand(id);
   return { title: gegenstand ? gegenstand.titel : "Nicht gefunden" };
 }
 
@@ -22,7 +18,7 @@ export default async function GegenstandSeite({
   params,
 }: PageProps<"/gegenstaende/[id]">) {
   const { id } = await params;
-  const gegenstand = findeGegenstand(id);
+  const gegenstand = await ladeGegenstand(id);
 
   if (!gegenstand) {
     notFound();
@@ -43,13 +39,11 @@ export default async function GegenstandSeite({
 
       <article className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
         <div className="relative aspect-[4/3] w-full bg-accent-soft">
-          <Image
-            src={bild}
+          <GegenstandBild
+            bild={bild}
             alt={titel}
-            fill
             sizes="(min-width: 768px) 768px, 100vw"
-            className="object-cover"
-            priority
+            prioritaet
           />
         </div>
         <div className="flex flex-col gap-4 p-6">

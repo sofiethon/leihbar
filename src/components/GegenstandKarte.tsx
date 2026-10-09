@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import { MapPin, User } from "lucide-react";
+import GegenstandBild from "@/components/GegenstandBild";
 import type { Gegenstand } from "@/data/gegenstaende";
 import { preisText } from "@/lib/format";
 
@@ -16,13 +16,11 @@ export default function GegenstandKarte({ gegenstand, prioritaet = false }: Prop
   return (
     <article className="relative flex h-full flex-col overflow-hidden border-2 border-border bg-card transition duration-200 hover:-translate-y-1 hover:shadow-[6px_6px_0_var(--foreground)] focus-within:-translate-y-1 focus-within:shadow-[6px_6px_0_var(--foreground)]">
       <div className="relative aspect-[4/3] w-full border-b-2 border-border bg-accent-soft">
-        <Image
-          src={bild}
+        <GegenstandBild
+          bild={bild}
           alt=""
-          fill
           sizes="(min-width: 1024px) 320px, (min-width: 640px) 45vw, 100vw"
-          className="object-cover"
-          priority={prioritaet}
+          prioritaet={prioritaet}
         />
       </div>
       <div className="flex flex-1 flex-col gap-2 p-4">

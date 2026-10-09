@@ -1,16 +1,16 @@
+import Link from "next/link";
 import { Hand, Recycle, Search } from "lucide-react";
 import FeatureCard from "@/components/FeatureCard";
 import GegenstandKarte from "@/components/GegenstandKarte";
 import KategorieFilter from "@/components/KategorieFilter";
-import { gegenstaende, kategorien } from "@/data/gegenstaende";
+import { kategorien } from "@/data/gegenstaende";
+import { ladeVerfuegbareGegenstaende } from "@/lib/gegenstaende";
 
 export default async function Home({ searchParams }: PageProps<"/">) {
   const { kategorie } = await searchParams;
   // Nur eine bekannte Kategorie gilt als Filter; alles andere zeigt „Alle“.
   const aktiv = kategorien.find((name) => name === kategorie);
-  const verfuegbar = gegenstaende.filter(
-    (gegenstand) => gegenstand.verfuegbar && (!aktiv || gegenstand.kategorie === aktiv),
-  );
+  const verfuegbar = await ladeVerfuegbareGegenstaende(aktiv);
 
   return (
     <main id="top" className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 py-12 sm:block">
@@ -39,9 +39,12 @@ export default async function Home({ searchParams }: PageProps<"/">) {
             >
               Gegenstände ansehen
             </a>
-            <span className="inline-flex min-h-11 items-center border-2 border-border px-5 text-muted">
-              Anbieten – kommt an Tag 2
-            </span>
+            <Link
+              href="/anbieten"
+              className="inline-flex min-h-11 items-center border-2 border-border px-5 font-medium transition hover:bg-card"
+            >
+              Gegenstand anbieten
+            </Link>
           </div>
         </div>
       </section>
@@ -83,10 +86,10 @@ export default async function Home({ searchParams }: PageProps<"/">) {
           </ul>
         ) : (
           <p className="border-2 border-dashed border-border bg-card p-8 text-center text-muted">
-            Gerade ist nichts zum Ausleihen da. Schau bald wieder vorbei.{" "}
-            <a href="#top" className="inline-flex min-h-11 items-center underline">
-              Zurück nach oben
-            </a>
+            Gerade ist nichts zum Ausleihen da. Biete doch du etwas an.{" "}
+            <Link href="/anbieten" className="inline-flex min-h-11 items-center underline">
+              Gegenstand anbieten
+            </Link>
           </p>
         )}
       </section>
