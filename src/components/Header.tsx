@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { Heart } from "lucide-react";
 import { abmelden } from "@/app/anmelden/actions";
-import AnfragenHinweis from "@/components/AnfragenHinweis";
+import KontoMenue from "@/components/KontoMenue";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function Header() {
@@ -33,35 +32,12 @@ export default async function Header() {
             Anbieten
           </Link>
           {user ? (
-            <>
-              <Link
-                href="/meine-anfragen"
-                className="hidden min-h-11 items-center hover:text-foreground sm:flex"
-              >
-                Meine Anfragen
-              </Link>
-              <AnfragenHinweis userId={user.id} start={offeneAnfragen ?? 0} />
-              <Link
-                href="/gemerkt"
-                aria-label="Gemerkt"
-                className="flex min-h-11 items-center gap-2 hover:text-foreground max-sm:min-w-11 max-sm:justify-center"
-              >
-                <Heart size={18} aria-hidden="true" />
-                <span className="hidden sm:inline">Gemerkt</span>
-              </Link>
-              <span className="min-w-0 max-w-24 truncate sm:max-w-48" title={user.email}>
-                <span className="sr-only">Angemeldet als </span>
-                {user.email}
-              </span>
-              <form action={abmelden}>
-                <button
-                  type="submit"
-                  className="min-h-11 whitespace-nowrap border-2 border-border px-2 text-xs font-medium text-foreground hover:bg-card sm:px-3"
-                >
-                  Abmelden
-                </button>
-              </form>
-            </>
+            <KontoMenue
+              userId={user.id}
+              email={user.email ?? ""}
+              start={offeneAnfragen ?? 0}
+              abmelden={abmelden}
+            />
           ) : (
             <Link
               href="/anmelden"
