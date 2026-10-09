@@ -94,43 +94,81 @@
 
 **Fertig, wenn:** drei Vorschläge erzeugt, Rate Limit ausgelöst, Netzwerk-Tab ohne Key.
 
-## Ergänzungen aus dem Brainstorming (nach Issue 7)
+## Tag 2 — Übung 6: Gemeinsam (mit den Konten der anderen)
 
-### ⬜ Issue 9 — Nachricht und Kontakt bei der Anfrage
-**Ziel:** Wer einen Gegenstand anfragt, schreibt einen kurzen Satz und hinterlässt seine E-Mail, und die Besitzerin sieht beides – damit sie weiß, wer etwas will, und sich melden kann.
-**Nicht im Umfang:** Chat in der App, Antworten in der App, Annehmen oder Ablehnen, E-Mail-Benachrichtigungen.
+### ⬜ Issue 9 — Zähler live
+**Ziel:** Der Zähler „Anfragen“ auf der Detailseite ändert sich ohne Neuladen, sobald jemand anderes anfragt oder zurückzieht – damit Besitzer*innen sofort sehen, dass jemand Interesse hat.
+**Nicht im Umfang:** Benachrichtigungen, Töne, Liste der Anfragenden.
 **Akzeptanzkriterien:**
-- Gegeben ich bin angemeldet, wenn ich „Ausleihen anfragen“ klicke, dann kann ich einen kurzen Satz schreiben, bevor die Anfrage abgeschickt wird; meine E-Mail wird mitgegeben.
-- Gegeben jemand hat meinen Gegenstand angefragt, wenn ich `/anfragen-an-mich` öffne, dann sehe ich Gegenstand, Nachricht und E-Mail der anfragenden Person.
-- Gegeben ich habe keine Anfragen erhalten, dann sehe ich einen Hinweis mit Link zur Liste.
-- Gegeben die Nachricht ist länger als 300 Zeichen, dann sehe ich eine verständliche Fehlermeldung und die Anfrage wird nicht abgeschickt.
-- Gegeben ich bin nicht die Besitzerin, dann sehe ich die Nachrichten zu fremden Gegenständen nicht (Row Level Security).
+- Gegeben ich habe die Detailseite eines Gegenstands offen, wenn eine andere Person ihn auf ihrem Gerät anfragt, dann steigt der Zähler innerhalb von 3 Sekunden um 1, ohne dass ich neu lade.
+- Gegeben die andere Person zieht ihre Anfrage zurück, dann sinkt der Zähler wieder, ebenfalls ohne Neuladen.
+- Gegeben ich bin nicht angemeldet, dann sehe ich den Zähler trotzdem live.
+- Gegeben ich lade die Seite danach neu, dann zeigt der Zähler denselben Wert (nichts doppelt gezählt).
 
-**Fertig, wenn:** mit zwei Testkonten angefragt und auf der Seite des anderen Kontos gesehen; zu lange Nachricht ausprobiert; mit dem dritten Konto nichts Fremdes sichtbar.
+**Fertig, wenn:** die nächste Person in der Runde auf meiner Live-Adresse angefragt und zurückgezogen hat, während ich auf meinem Gerät zugesehen habe – einmal angemeldet, einmal abgemeldet.
 
-### ⬜ Issue 10 — Region-Filter (Wien / Niederösterreich)
-**Ziel:** Studierende grenzen die Liste auf Wien oder Niederösterreich ein – damit sie nur Gegenstände sehen, die sie erreichen können.
-**Nicht im Umfang:** Umkreissuche, Karte, Bezirke.
+### ⬜ Issue 10 — Anfrage annehmen oder ablehnen
+**Ziel:** Besitzer*innen nehmen eine Anfrage an oder lehnen sie ab, und die anfragende Person sieht die Antwort – damit aus einer Anfrage eine Ausleihe wird.
+**Nicht im Umfang:** Zeitraum, Übergabe, Nachrichten, E-Mails; Beispiel-Gegenstände ohne Besitzer*in-Konto.
 **Akzeptanzkriterien:**
-- Gegeben ich biete einen Gegenstand an, dann muss ich eine Region (Wien oder Niederösterreich) wählen; ohne Auswahl sehe ich eine Fehlermeldung.
-- Gegeben ich klicke auf „Wien“, dann sehe ich nur Gegenstände aus Wien und der Filter ist sichtbar aktiv.
-- Gegeben ich klicke auf „Alle Regionen“, dann sehe ich wieder alles.
-- Gegeben ich habe eine Kategorie und eine Region gewählt, dann sehe ich nur Gegenstände, die zu beiden passen.
+- Gegeben jemand hat einen Gegenstand angefragt, den ich anbiete, dann sehe ich auf dessen Detailseite die Anfrage mit der E-Mail, mit der die Person angemeldet ist, und den Buttons „Annehmen“ und „Ablehnen“.
+- Gegeben der Gegenstand gehört nicht mir, dann sehe ich dort keine fremden Anfragen und keine Buttons.
+- Gegeben ich nehme eine Anfrage an, dann steht bei der anfragenden Person unter `/meine-anfragen` „angenommen“; lehne ich ab, steht dort „abgelehnt“. Neue Anfragen stehen auf „offen“.
+- Gegeben ich bin weder Besitzer*in noch die anfragende Person, dann kann ich die Anfrage samt E-Mail auch direkt in der Datenbank nicht lesen; der Zähler aus Issue 9 zählt trotzdem für alle (Row Level Security, Tabelle `requests`).
+- Gegeben ich bin Besitzer*in, dann kann ich an einer Anfrage nur den Status ändern; alle anderen können gar nichts ändern.
 
-**Fertig, wenn:** zwei Gegenstände in verschiedenen Regionen angeboten, beide Filter einzeln und kombiniert geprüft, auch am Handy (375 px).
+**Fertig, wenn:** die nächste Person in der Runde auf meiner Live-Adresse einen Gegenstand angefragt hat, den ich angeboten habe; ich habe angenommen und sie hat „angenommen“ gesehen; eine zweite Anfrage abgelehnt; RLS-Prüfung mit dem Supabase-MCP ohne Lücke.
 
-### ⬜ Issue 11 — „Gerade verliehen“ umschalten
-**Ziel:** Die Besitzerin markiert ihren Gegenstand per Klick als verliehen oder wieder frei – damit die Liste aktuell bleibt und niemand etwas anfragt, das nicht da ist.
-**Nicht im Umfang:** Verleihen an eine bestimmte Person, Rückgabedatum, Erinnerungen.
+### ⬜ Issue 11 — Hinweis auf neue Anfragen (wer schnell ist)
+**Ziel:** Im Header sehe ich, wie viele offene Anfragen auf meine Gegenstände warten – damit ich keine verpasse.
+**Nicht im Umfang:** E-Mail- oder Push-Benachrichtigungen, Anfragen auf fremde Gegenstände.
 **Akzeptanzkriterien:**
-- Gegeben ich bin angemeldet und der Gegenstand gehört mir, wenn ich „Als verliehen markieren“ klicke, dann verschwindet er aus der Liste der anderen.
-- Gegeben mein Gegenstand ist als verliehen markiert, wenn ich „Wieder freigeben“ klicke, dann erscheint er wieder in der Liste.
-- Gegeben der Gegenstand gehört einer anderen Person, dann sehe ich den Button nicht und kann den Status nicht ändern (Row Level Security).
+- Gegeben auf meine Gegenstände warten 2 offene Anfragen, dann zeigt der Header eine 2, und ein Klick darauf führt zu einer Seite, auf der ich sie sehe.
+- Gegeben es wartet keine offene Anfrage, dann zeigt der Header keine Zahl.
+- Gegeben eine andere Person fragt an, während ich die App offen habe, dann steigt die Zahl ohne Neuladen; nehme ich an oder lehne ab, sinkt sie.
+- Gegeben ich bin nicht angemeldet, dann gibt es keinen Hinweis.
+- Gegeben ich öffne die App am Handy (375 px), dann bleibt der Header einzeilig.
 
-**Fertig, wenn:** mit Konto A umgeschaltet und mit Konto B geprüft, dass der Gegenstand erscheint und verschwindet; Konto B sieht keinen Button.
+**Fertig, wenn:** die nächste Person in der Runde hat zweimal angefragt, die Zahl stieg live auf 2; eine angenommen, eine abgelehnt, die Zahl verschwand; einmal abgemeldet geprüft.
+
+## Tag 2 — Übung 7: Animation
+
+### ⬜ Issue 12 — Filter mit Animation
+**Ziel:** Beim Wechsel der Kategorie gleiten die Karten an ihren neuen Platz, statt zu springen – damit man sieht, was wegfällt und was bleibt.
+**Nicht im Umfang:** Animation beim ersten Laden der Seite, neue Filter, Sortierung.
+**Akzeptanzkriterien:**
+- Gegeben ich wechsle von „Alle“ zu „Mode“, dann blenden die übrigen Karten aus und die verbleibenden gleiten an ihren neuen Platz – in höchstens 0,4 Sekunden.
+- Gegeben ich wechsle die Kategorie, dann gleitet die Markierung des aktiven Filters zum neuen Filter.
+- Gegeben ich klicke schnell hintereinander mehrere Filter, dann zeigt die Liste am Ende genau die Gegenstände der zuletzt gewählten Kategorie (keine doppelten oder hängengebliebenen Karten).
+- Gegeben „Bewegung reduzieren“ ist eingeschaltet, dann wechselt die Liste ohne Animation.
+- Gegeben ich öffne die Seite am Handy (375 px), dann ragt auch während der Animation nichts über den Rand.
+
+**Fertig, wenn:** jede Kategorie angeklickt, schnell hin und her gewechselt, einmal mit „Bewegung reduzieren“ (DevTools → Rendering → prefers-reduced-motion: reduce) und einmal in Handybreite.
+
+### ⬜ Issue 13 — Anfragen ohne Warten
+**Ziel:** Button und Zähler reagieren sofort beim Klick, nicht erst nach der Antwort der Datenbank – damit sich die App schnell anfühlt; klappt das Speichern nicht, sieht man das.
+**Nicht im Umfang:** Töne, Vibration, Animationen auf dem Rest der Seite.
+**Akzeptanzkriterien:**
+- Gegeben ich bin angemeldet, wenn ich „Ausleihen anfragen“ klicke, dann ändern sich Button und Zähler sofort, und die Zahl wechselt mit einer kurzen Animation (höchstens 0,3 Sekunden).
+- Gegeben das Speichern schlägt fehl, dann springen Button und Zähler auf den alten Stand zurück, der Button schüttelt kurz, und ich lese in einem ganzen deutschen Satz, was passiert ist.
+- Gegeben ich lade die Seite neu, dann stimmt der Zähler – auch zusammen mit der Live-Aktualisierung aus Issue 9 wird nichts doppelt gezählt.
+- Gegeben „Bewegung reduzieren“ ist eingeschaltet, dann ändern sich Zahl und Button ohne Animation.
+
+**Fertig, wenn:** angefragt, zurückgezogen, neu geladen; den Fehlerfall einmal ausgelöst (DevTools → Network → „Offline“, dann klicken) und gesehen, dass der Zähler zurückspringt; danach wieder „No throttling“.
+
+### ⬜ Issue 14 — Erfolgsmoment beim Anbieten
+**Ziel:** Nach dem Speichern eines neuen Gegenstands sieht man deutlich, dass es geklappt hat, und findet ihn sofort in der Liste – damit Anbietende sicher sind, dass ihr Angebot online ist.
+**Nicht im Umfang:** Konfetti, Teilen, E-Mail an andere.
+**Akzeptanzkriterien:**
+- Gegeben ich speichere einen gültigen Gegenstand, dann sehe ich eine Erfolgsmeldung mit Häkchen, die nach wenigen Sekunden von selbst verschwindet.
+- Gegeben ich lande danach in der Liste, dann ist der neue Gegenstand kurz hervorgehoben.
+- Gegeben ich lade die Seite neu, dann sind Meldung und Hervorhebung weg.
+- Gegeben das Speichern scheitert (z. B. leerer Titel), dann gibt es keinen Erfolgsmoment, sondern die Fehlermeldung aus Issue 4.
+- Gegeben „Bewegung reduzieren“ ist eingeschaltet, dann erscheinen Meldung und Hervorhebung ohne Animation.
+
+**Fertig, wenn:** ein Gegenstand angeboten und Meldung und Hervorhebung gesehen, neu geladen; einmal mit leerem Titel versucht; einmal mit „Bewegung reduzieren“.
 
 ## Später / Ideen (nicht im MVP)
-- Anfrage annehmen oder ablehnen (Besitzer*in)
 - Zeitraum bei der Anfrage wählen
 - Kalender mit freien Tagen
 - Fotos hochladen
