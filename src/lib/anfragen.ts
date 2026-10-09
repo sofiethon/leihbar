@@ -88,3 +88,37 @@ export async function ladeMeineAnfragen(): Promise<MeineAnfrage[]> {
     zeile.items ? [{ gegenstand: zuGegenstand(zeile.items), status: zeile.status }] : [],
   );
 }
+
+export type OffeneAnfragenBeiGegenstand = { gegenstand: Gegenstand; anzahl: number };
+
+/** Meine Gegenstände mit offenen Anfragen, die meisten Anfragen zuerst. Row Level Security zeigt nur Anfragen auf eigene Gegenstände (und eigene Anfragen, die hier ausgefiltert werden). */
+export async function ladeOffeneAnfragenAnMich(): Promise<OffeneAnfragenBeiGegenstand[]> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    return [];
+  }
+
+  const { data, error } = await supabase
+    .from("requests")
+    .select(`id, items!inner (${spalten}, owner_id)`)
+    .eq("status", "offen")
+    .eq("items.owner_id", user.id)
+    .overrideTypes<{ id: string; items: ItemZeile }[], { merge: false }>();
+  if (error) {
+    throw new Error(`Anfragen konnten nicht geladen werden: ${error.message}`);
+  }
+
+  const proGegenstand = new Map<string, OffeneAnfragenBeiGegenstand>();
+  for (const zeile of data) {
+    const eintrag = proGegenstand.get(zeile.items.id);
+    if (eintrag) {
+      eintrag.anzahl += 1;
+    } else {
+      proGegenstand.set(zeile.items.id, { gegenstand: zuGegenstand(zeile.items), anzahl: 1 });
+    }
+  }
+  return [...proGegenstand.values()].sort((a, b) => b.anzahl - a.anzahl);
+}

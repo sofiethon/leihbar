@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Heart } from "lucide-react";
 import { abmelden } from "@/app/anmelden/actions";
+import AnfragenHinweis from "@/components/AnfragenHinweis";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function Header() {
@@ -8,6 +9,14 @@ export default async function Header() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  const { count: offeneAnfragen } = user
+    ? await supabase
+        .from("requests")
+        .select("id, items!inner (owner_id)", { count: "exact", head: true })
+        .eq("status", "offen")
+        .eq("items.owner_id", user.id)
+    : { count: 0 };
 
   return (
     <header className="border-b-2 border-border bg-background/90 backdrop-blur">
@@ -31,6 +40,7 @@ export default async function Header() {
               >
                 Meine Anfragen
               </Link>
+              <AnfragenHinweis userId={user.id} start={offeneAnfragen ?? 0} />
               <Link
                 href="/gemerkt"
                 aria-label="Gemerkt"
