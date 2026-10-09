@@ -8,9 +8,11 @@ type Props = {
   gegenstand: Gegenstand;
   /** Das erste sichtbare Bild wird sofort geladen. */
   prioritaet?: boolean;
+  /** Welche Überschrift der Titel ist – passend zur Seite, auf der die Karte steht. */
+  titelEbene?: "h2" | "h3";
 };
 
-export default function GegenstandKarte({ gegenstand, prioritaet = false }: Props) {
+export default function GegenstandKarte({ gegenstand, prioritaet = false, titelEbene: Titel = "h3" }: Props) {
   const { id, titel, kategorie, preisProTag, ort, besitzer, bild } = gegenstand;
 
   return (
@@ -28,12 +30,12 @@ export default function GegenstandKarte({ gegenstand, prioritaet = false }: Prop
           <span className="sr-only">Kategorie: </span>
           {kategorie}
         </p>
-        <h3 className="font-display text-xl font-extrabold leading-tight">
+        <Titel className="font-display text-xl font-extrabold leading-tight">
           {/* Der unsichtbare Überzug (after:) macht die ganze Karte anklickbar. */}
           <Link href={`/gegenstaende/${id}`} className="after:absolute after:inset-0">
             {titel}
           </Link>
-        </h3>
+        </Titel>
         <p className="font-display font-extrabold">{preisText(preisProTag)}</p>
         <dl className="mt-auto flex flex-col gap-1 pt-2 text-sm text-muted">
           <div className="flex items-start gap-2">

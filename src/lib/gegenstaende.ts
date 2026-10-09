@@ -2,7 +2,7 @@ import type { Gegenstand, Kategorie } from "@/data/gegenstaende";
 import { createClient } from "@/lib/supabase/server";
 
 // So sieht eine Zeile der Tabelle `items` aus.
-type ItemZeile = {
+export type ItemZeile = {
   id: string;
   titel: string;
   kategorie: Kategorie;
@@ -14,10 +14,10 @@ type ItemZeile = {
   bild_url: string | null;
 };
 
-const spalten =
+export const spalten =
   "id, titel, kategorie, beschreibung, ort, preis_pro_tag, besitzer_name, verfuegbar, bild_url";
 
-function zuGegenstand(zeile: ItemZeile): Gegenstand {
+export function zuGegenstand(zeile: ItemZeile): Gegenstand {
   return {
     id: zeile.id,
     titel: zeile.titel,

@@ -72,7 +72,7 @@
 
 **Fertig, wenn:** alle Kriterien im Browser durchgeklickt, Zähler stimmt auch nach einem Reload.
 
-### ⬜ Issue 7 — Meine Anfragen
+### 🔧 Issue 7 — Meine Anfragen
 **Ziel:** Unter `/meine-anfragen` sehen Studierende, was sie angefragt haben – damit sie den Überblick behalten.
 **Nicht im Umfang:** Status der Anfrage, Erinnerungen.
 **Akzeptanzkriterien:**
