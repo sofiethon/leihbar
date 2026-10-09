@@ -19,18 +19,19 @@ export default function AnfrageZaehler({
     let aktiv = true;
 
     async function neuZaehlen() {
-      const { count, error } = await supabase
-        .from("requests")
-        .select("id", { count: "exact", head: true })
-        .eq("item_id", itemId);
-      if (aktiv && !error && count !== null) {
-        setAnzahl(count);
+      const { data, error } = await supabase
+        .from("request_counts")
+        .select("anzahl")
+        .eq("item_id", itemId)
+        .maybeSingle();
+      if (aktiv && !error) {
+        setAnzahl(data?.anzahl ?? 0);
       }
     }
 
     const kanal = supabase
       .channel(`anfragen-${itemId}`)
-      .on("postgres_changes", { event: "*", schema: "public", table: "requests" }, neuZaehlen)
+      .on("postgres_changes", { event: "*", schema: "public", table: "request_counts", filter: `item_id=eq.${itemId}` }, neuZaehlen)
       .subscribe();
 
     return () => {

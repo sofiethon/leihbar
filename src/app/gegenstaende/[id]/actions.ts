@@ -39,3 +39,15 @@ export async function anfrageUmschalten(itemId: string) {
   revalidatePath(pfad);
   revalidatePath("/meine-anfragen");
 }
+
+/** Besitzer*in nimmt eine Anfrage an oder lehnt sie ab (die Datenbank erlaubt das nur ihr). */
+export async function anfrageBeantworten(
+  itemId: string,
+  anfrageId: string,
+  status: "angenommen" | "abgelehnt",
+) {
+  const supabase = await createClient();
+  await supabase.from("requests").update({ status }).eq("id", anfrageId).eq("item_id", itemId);
+  revalidatePath(`/gegenstaende/${itemId}`);
+  revalidatePath("/meine-anfragen");
+}

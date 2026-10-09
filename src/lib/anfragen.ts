@@ -19,8 +19,8 @@ export async function ladeAnfrageStatus(itemId: string): Promise<AnfrageStatus> 
     data: { user },
   } = await supabase.auth.getUser();
 
-  const [{ count, error }, eigeneAnfrage, gegenstand] = await Promise.all([
-    supabase.from("requests").select("id", { count: "exact", head: true }).eq("item_id", itemId),
+  const [{ data: zaehler, error }, eigeneAnfrage, gegenstand] = await Promise.all([
+    supabase.from("request_counts").select("anzahl").eq("item_id", itemId).maybeSingle(),
     user
       ? supabase
           .from("requests")
@@ -36,15 +36,36 @@ export async function ladeAnfrageStatus(itemId: string): Promise<AnfrageStatus> 
   }
 
   return {
-    anzahl: count ?? 0,
+    anzahl: zaehler?.anzahl ?? 0,
     angemeldet: Boolean(user),
     angefragt: Boolean(eigeneAnfrage?.data),
     eigener: Boolean(user && gegenstand?.data?.owner_id === user.id),
   };
 }
 
+export type Status = "offen" | "angenommen" | "abgelehnt";
+
+export type MeineAnfrage = { gegenstand: Gegenstand; status: Status };
+
+export type AnfrageAnMich = { id: string; email: string; status: Status };
+
+/** Die Anfragen auf einen Gegenstand – nur für die Besitzer*in lesbar, sonst leer. */
+export async function ladeAnfragenAnMich(itemId: string): Promise<AnfrageAnMich[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("requests")
+    .select("id, user_email, status")
+    .eq("item_id", itemId)
+    .order("created_at", { ascending: true })
+    .overrideTypes<{ id: string; user_email: string | null; status: Status }[], { merge: false }>();
+  if (error) {
+    throw new Error(`Anfragen konnten nicht geladen werden: ${error.message}`);
+  }
+  return data.map((z) => ({ id: z.id, email: z.user_email ?? "unbekannt", status: z.status }));
+}
+
 /** Die Gegenstände, die die angemeldete Person angefragt hat – die neueste Anfrage zuerst. */
-export async function ladeMeineAnfragen(): Promise<Gegenstand[]> {
+export async function ladeMeineAnfragen(): Promise<MeineAnfrage[]> {
   const supabase = await createClient();
   const {
     data: { user },
@@ -55,13 +76,15 @@ export async function ladeMeineAnfragen(): Promise<Gegenstand[]> {
 
   const { data, error } = await supabase
     .from("requests")
-    .select(`created_at, items (${spalten})`)
+    .select(`created_at, status, items (${spalten})`)
     .eq("user_id", user.id)
     .order("created_at", { ascending: false })
-    .overrideTypes<{ created_at: string; items: ItemZeile | null }[], { merge: false }>();
+    .overrideTypes<{ created_at: string; status: Status; items: ItemZeile | null }[], { merge: false }>();
   if (error) {
     throw new Error(`Anfragen konnten nicht geladen werden: ${error.message}`);
   }
 
-  return data.flatMap((zeile) => (zeile.items ? [zuGegenstand(zeile.items)] : []));
+  return data.flatMap((zeile) =>
+    zeile.items ? [{ gegenstand: zuGegenstand(zeile.items), status: zeile.status }] : [],
+  );
 }

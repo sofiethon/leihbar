@@ -5,7 +5,8 @@ import { ArrowLeft, MapPin, User } from "lucide-react";
 import AnfrageBereich from "@/components/AnfrageBereich";
 import GegenstandBild from "@/components/GegenstandBild";
 import HerzButton from "@/components/HerzButton";
-import { ladeAnfrageStatus } from "@/lib/anfragen";
+import AnfragenAnMich from "@/components/AnfragenAnMich";
+import { ladeAnfrageStatus, ladeAnfragenAnMich } from "@/lib/anfragen";
 import { ladeGemerkteIds } from "@/lib/favoriten";
 import { preisText } from "@/lib/format";
 import { ladeGegenstand } from "@/lib/gegenstaende";
@@ -29,6 +30,7 @@ export default async function GegenstandSeite({
   }
 
   const [anfrageStatus, gemerkt] = await Promise.all([ladeAnfrageStatus(id), ladeGemerkteIds()]);
+  const anfragenAnMich = anfrageStatus.eigener ? await ladeAnfragenAnMich(id) : [];
 
   const { titel, kategorie, beschreibung, besitzer, ort, preisProTag, verfuegbar, bild } =
     gegenstand;
@@ -69,6 +71,7 @@ export default async function GegenstandSeite({
               variante="text"
             />
           </div>
+          {anfrageStatus.eigener && <AnfragenAnMich itemId={id} anfragen={anfragenAnMich} />}
           {!verfuegbar && (
             <p className="rounded-xl bg-accent-soft px-4 py-3 text-foreground">
               Dieser Gegenstand ist gerade verliehen.
