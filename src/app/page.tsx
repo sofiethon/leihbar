@@ -17,13 +17,11 @@ export default async function Home({ searchParams }: PageProps<"/">) {
       {/* Beim Scrollen fahren Gelb, Blau und Schwarz unter der weißen Platte hervor (siehe .rolle in globals.css). */}
       <section aria-label="Willkommen" className="rolle mb-12">
         <div className="buehne flex flex-col gap-1">
-          <div className="platte z-10 flex min-h-72 flex-1 flex-col justify-between gap-8 border-2 border-border bg-card p-6 sm:p-10">
-            <div className="flex flex-col gap-3">
-              <h1 className="font-display text-[4.75rem] font-bold leading-[0.9] tracking-tight sm:text-[9rem] lg:text-[12rem]">
-                leihbar.
-              </h1>
-              <p className="font-display text-2xl font-light sm:text-4xl">leihen statt kaufen.</p>
-            </div>
+          <div className="platte z-10 flex flex-col gap-3 border-2 border-border bg-card px-6 pb-10 pt-8 sm:gap-5 sm:px-12 sm:pb-16 sm:pt-12">
+            <h1 className="font-display text-[4.75rem] font-bold leading-[0.9] tracking-tight sm:text-[9rem] lg:text-[12rem]">
+              leihbar.
+            </h1>
+            <p className="font-display text-2xl font-light sm:text-5xl">leihen statt kaufen.</p>
           </div>
           <div className="grid grid-cols-2 gap-1 sm:grid-cols-3">
             <Link

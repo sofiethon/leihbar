@@ -60,7 +60,7 @@ body {
    ohne Scroll-Animationen hat, sieht alle Platten sofort an ihrem Platz. */
 @keyframes hervorfahren {
   from {
-    transform: translateY(-50svh);
+    transform: translateY(-75svh);
   }
   to {
     transform: none;
@@ -69,14 +69,17 @@ body {
 
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: scroll()) {
-    .rolle {
-      /* Bühne plus 60 Bildschirmhöhen-Prozent Scrollweg, in dem sie festgehalten wird. */
-      height: calc(100svh - 7.5rem + 60svh);
+    .rolle::after {
+      /* Scrollweg, in dem die Bühne festgehalten wird. */
+      content: "";
+      display: block;
+      height: 60svh;
     }
     .buehne {
       position: sticky;
       top: 5.25rem; /* unter dem festen Header */
-      height: calc(100svh - 7.5rem);
+      /* Was nach oben aus der Bühne fährt, wird abgeschnitten. */
+      overflow: clip;
     }
     .rolle-gelb,
     .rolle-blau,
