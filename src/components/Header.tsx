@@ -18,17 +18,16 @@ export default async function Header() {
     : { count: 0 };
 
   return (
-    <header className="border-b-2 border-border bg-background/90 backdrop-blur">
+    <header className="border-b-2 border-border bg-background">
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3">
-        <Link href="/" className="flex min-h-11 items-center gap-2 font-display text-xl font-black tracking-tight sm:text-2xl">
-          <span className="hidden h-3 w-3 rounded-full border-2 border-border bg-accent sm:inline-block" />
+        <Link href="/" className="flex min-h-11 items-center border-2 border-border bg-rot px-3 font-display text-2xl font-bold tracking-tight text-card">
           leihbar.
         </Link>
-        <nav aria-label="Hauptnavigation" className="flex min-w-0 items-center gap-2 text-sm text-muted sm:gap-4">
-          <Link href="/#gegenstaende" className="hidden min-h-11 items-center hover:text-foreground sm:flex">
+        <nav aria-label="Hauptnavigation" className="flex min-w-0 items-center gap-2 text-sm font-medium text-foreground sm:gap-4">
+          <Link href="/#gegenstaende" className="hidden min-h-11 items-center underline-offset-4 hover:underline sm:flex">
             Gegenstände
           </Link>
-          <Link href="/anbieten" className="flex min-h-11 items-center hover:text-foreground">
+          <Link href="/anbieten" className="flex min-h-11 items-center underline-offset-4 hover:underline">
             Anbieten
           </Link>
           {user ? (
@@ -41,7 +40,7 @@ export default async function Header() {
           ) : (
             <Link
               href="/anmelden"
-              className="flex min-h-11 items-center whitespace-nowrap border-2 border-border px-3 text-xs font-medium text-foreground hover:bg-card"
+              className="flex min-h-11 items-center whitespace-nowrap border-2 border-border bg-blau px-4 text-sm font-medium text-card transition hover:bg-foreground"
             >
               Anmelden
             </Link>

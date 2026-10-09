@@ -6,7 +6,7 @@ import { ChevronDown, Heart, Inbox, LogOut, Send, User } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
 const eintragKlassen =
-  "flex min-h-11 w-full items-center gap-3 px-4 text-left text-sm text-foreground hover:bg-accent-soft";
+  "flex min-h-11 w-full items-center gap-3 px-4 text-left text-sm text-foreground hover:bg-accent";
 
 // Aufklappmenü rechts im Header: E-Mail als Auslöser, darin die persönlichen Links.
 // Die Zahl offener Anfragen auf meine Gegenstände wird live nachgezählt und schon am Auslöser angezeigt.
@@ -78,7 +78,7 @@ export default function KontoMenue({
         aria-expanded={offen}
         aria-controls="konto-menue"
         aria-label="Konto-Menü"
-        className="relative flex min-h-11 items-center gap-2 border-2 border-border px-2 text-sm text-foreground hover:bg-card sm:px-3"
+        className="relative flex min-h-11 items-center gap-2 border-2 border-border bg-card px-3 text-sm text-foreground transition hover:bg-accent sm:px-4"
       >
         <User size={18} aria-hidden="true" className="sm:hidden" />
         <span className="hidden max-w-40 truncate sm:inline" title={email}>
@@ -91,7 +91,7 @@ export default function KontoMenue({
         />
         {anzahl > 0 && (
           <span
-            className="absolute -right-2 -top-2 flex min-h-5 min-w-5 items-center justify-center rounded-full bg-foreground px-1 text-xs font-bold text-card"
+            className="absolute -right-2 -top-2 flex min-h-5 min-w-5 items-center justify-center rounded-full bg-rot px-1 text-xs font-bold text-card"
             aria-live="polite"
           >
             {anzahl}
@@ -105,7 +105,7 @@ export default function KontoMenue({
           id="konto-menue"
           className="absolute right-0 top-full z-20 mt-2 w-64 max-w-[calc(100vw-2rem)] border-2 border-border bg-card py-1"
         >
-          <p className="truncate px-4 py-2 text-xs text-muted" title={email}>
+          <p className="truncate px-4 py-2 text-sm text-muted" title={email}>
             <span className="sr-only">Angemeldet als </span>
             {email}
           </p>
@@ -121,7 +121,7 @@ export default function KontoMenue({
                 <Inbox size={18} aria-hidden="true" />
                 Anfragen an mich
                 {anzahl > 0 && (
-                  <span className="ml-auto flex min-h-5 min-w-5 items-center justify-center rounded-full bg-foreground px-1 text-xs font-bold text-card">
+                  <span className="ml-auto flex min-h-5 min-w-5 items-center justify-center rounded-full bg-rot px-1 text-xs font-bold text-card">
                     {anzahl}
                     <span className="sr-only"> offene Anfragen</span>
                   </span>

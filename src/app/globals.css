@@ -1,14 +1,17 @@
 @import "tailwindcss";
 
-/* Richtung „Salbei-Raster“: Salbei, Dunkelrot, Papier, Mohnrot. */
+/* Richtung „Postsparkasse“ in Bauhaus-Farben: Rot, Blau, Gelb, Schwarz und Weiß auf Platten mit Nieten wie bei Otto Wagners Postsparkasse. */
 :root {
-  --background: #b9c7ae; /* Salbei */
-  --foreground: #5a150c; /* Dunkelrot */
-  --accent: #e4572e; /* Mohnrot – nur für Flächen und Dekor, nie für kleine Schrift */
-  --accent-soft: #d3dec9; /* helles Salbei für Flächen */
-  --muted: #3f4a39; /* gedämpfter Text, lesbar auf Salbei und Papier */
-  --card: #f3efe6; /* Papier */
-  --border: #5a150c; /* Rasterlinien */
+  --background: #f2f2f2; /* helles Grau – Seitengrund */
+  --foreground: #111111; /* Schwarz – Text, Linien, Fugen (16,9:1 auf dem Grund) */
+  --accent: #ffd500; /* Bauhaus-Gelb – Preisplatten, Hover; Schwarz darauf 13,3:1 */
+  --accent-soft: #e4e4e4; /* dunkleres Grau für Bildgrund und Hover */
+  --muted: #404040; /* gedämpfter Text, lesbar auf Grund, Weiß und Bildgrund (8,2–10,4:1) */
+  --card: #ffffff; /* Platten für Karten und Formulare */
+  --border: #111111; /* Linien an Bedienelementen */
+  --fuge: #111111; /* Fugen und Nieten, nie für Text */
+  --blau: #0a4da2; /* Bauhaus-Blau – Flächen, Weiß darauf 8,1:1 */
+  --rot: #d62718; /* Bauhaus-Rot – Flächen, Weiß darauf 5,0:1; nie Schrift auf hellem Grund */
 }
 
 @theme inline {
@@ -19,21 +22,44 @@
   --color-muted: var(--muted);
   --color-card: var(--card);
   --color-border: var(--border);
-  --font-sans: var(--font-space), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --color-fuge: var(--fuge);
+  --color-blau: var(--blau);
+  --color-rot: var(--rot);
+  --font-sans: var(--font-josefin), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-josefin), ui-sans-serif, system-ui, sans-serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  /* Josefin Sans hat eine kleine Mittellänge; so wirkt sie neben anderen Schriften nicht zu klein. */
+  font-size-adjust: 0.5;
+  /* Fließtext leicht (300), Titel und Preise fett (700) – zwei Stimmen einer Schrift. */
+  font-weight: 300;
 }
 
-/* Die eine Bewegung: Hero und Karten erscheinen nacheinander. Die Reihenfolge steht in --i. */
-@keyframes aufsteigen {
+/* Eine Marmorplatte: vier Nieten in den Ecken, liegt über Fotos und Text. */
+.platte {
+  position: relative;
+}
+.platte::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  --niete: radial-gradient(circle, var(--fuge) 0 2px, color-mix(in srgb, var(--foreground) 35%, transparent) 2.5px 3px, transparent 3.5px);
+  background-image: var(--niete), var(--niete), var(--niete), var(--niete);
+  background-size: 8px 8px;
+  background-repeat: no-repeat;
+  background-position: 6px 6px, calc(100% - 6px) 6px, 6px calc(100% - 6px), calc(100% - 6px) calc(100% - 6px);
+}
+
+/* Die eine Bewegung: Die Platten werden beim Laden der Startseite von oben nach unten eingehängt. Die Reihenfolge steht in --i. */
+@keyframes einhaengen {
   from {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(-20px);
   }
   to {
     opacity: 1;
@@ -42,8 +68,8 @@ body {
 }
 
 .erscheinen {
-  animation: aufsteigen 0.6s ease-out both;
-  animation-delay: calc(var(--i, 0) * 90ms);
+  animation: einhaengen 0.4s ease-out both;
+  animation-delay: calc(var(--i, 0) * 50ms);
 }
 
 /* Sichtbarer Rahmen für alle, die mit der Tastatur navigieren. Nicht entfernen, nur ersetzen. */

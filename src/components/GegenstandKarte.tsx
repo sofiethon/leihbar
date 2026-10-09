@@ -21,28 +21,30 @@ export default function GegenstandKarte({ gegenstand, prioritaet = false, titelE
   const { id, titel, kategorie, preisProTag, ort, besitzer, bild } = gegenstand;
 
   return (
-    <article className="relative flex h-full flex-col overflow-hidden border-2 border-border bg-card transition duration-200 hover:-translate-y-1 hover:shadow-[6px_6px_0_var(--foreground)] focus-within:-translate-y-1 focus-within:shadow-[6px_6px_0_var(--foreground)]">
-      <div className="relative aspect-[4/3] w-full border-b-2 border-border bg-accent-soft">
+    <article className="platte flex h-full min-w-0 flex-col overflow-hidden break-words hyphens-auto bg-card transition hover:bg-accent-soft focus-within:bg-accent-soft">
+      <div className="relative aspect-square w-full border-b-2 border-fuge bg-accent-soft">
         <GegenstandBild
           bild={bild}
           alt=""
           sizes="(min-width: 1024px) 320px, (min-width: 640px) 45vw, 100vw"
           prioritaet={prioritaet}
         />
+        <p className="absolute bottom-0 left-0 bg-accent px-3 py-1 font-display font-bold text-foreground">
+          {preisText(preisProTag)}
+        </p>
       </div>
       <HerzButton itemId={id} titel={titel} gemerkt={gemerkt} zurueck={zurueck} />
-      <div className="flex flex-1 flex-col gap-2 p-4">
+      <div className="flex flex-1 flex-col gap-2 p-5">
         <p className="text-sm text-muted">
           <span className="sr-only">Kategorie: </span>
           {kategorie}
         </p>
-        <Titel className="font-display text-xl font-extrabold leading-tight">
+        <Titel className="font-display text-xl font-bold leading-tight">
           {/* Der unsichtbare Überzug (after:) macht die ganze Karte anklickbar. */}
           <Link href={`/gegenstaende/${id}`} className="after:absolute after:inset-0">
             {titel}
           </Link>
         </Titel>
-        <p className="font-display font-extrabold">{preisText(preisProTag)}</p>
         <dl className="mt-auto flex flex-col gap-1 pt-2 text-sm text-muted">
           <div className="flex items-start gap-2">
             <dt className="sr-only">Ort:</dt>

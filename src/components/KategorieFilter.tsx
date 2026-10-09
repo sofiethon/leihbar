@@ -7,9 +7,9 @@ type Props = {
 };
 
 const basis =
-  "inline-flex min-h-11 items-center rounded-full border-2 px-5 text-sm font-medium transition";
-const gewaehlt = "border-border bg-foreground text-card";
-const ungewaehlt = "border-border bg-background text-foreground hover:bg-card";
+  "inline-flex min-h-11 items-center border-2 px-5 text-sm font-medium transition";
+const gewaehlt = "border-border bg-accent font-bold text-foreground";
+const ungewaehlt = "border-border bg-card text-foreground hover:bg-accent-soft";
 
 export default function KategorieFilter({ aktiv }: Props) {
   return (

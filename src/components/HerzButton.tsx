@@ -16,7 +16,7 @@ export default function HerzButton({ itemId, titel, gemerkt, zurueck, variante =
     <Heart
       size={20}
       aria-hidden="true"
-      className={gemerkt ? "fill-accent" : "fill-transparent"}
+      className={gemerkt ? "fill-rot text-rot" : "fill-transparent"}
     />
   );
   const aktion = merkenUmschalten.bind(null, itemId, zurueck);
@@ -29,7 +29,7 @@ export default function HerzButton({ itemId, titel, gemerkt, zurueck, variante =
           type="submit"
           aria-pressed={gemerkt}
           aria-label={beschriftung}
-          className="inline-flex min-h-11 items-center gap-2 border-2 border-border bg-card px-4 font-medium transition hover:bg-accent-soft"
+          className="inline-flex min-h-11 items-center gap-2 border-2 border-border bg-card px-4 font-medium transition hover:bg-accent"
         >
           {herz}
           {gemerkt ? "Gemerkt" : "Merken"}
@@ -44,7 +44,7 @@ export default function HerzButton({ itemId, titel, gemerkt, zurueck, variante =
         type="submit"
         aria-pressed={gemerkt}
         aria-label={beschriftung}
-        className="flex min-h-11 min-w-11 items-center justify-center border-2 border-border bg-card transition hover:bg-accent-soft"
+        className="flex min-h-11 min-w-11 items-center justify-center border-2 border-border bg-card transition hover:bg-accent"
       >
         {herz}
       </button>
