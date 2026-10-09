@@ -60,7 +60,7 @@
 
 **Fertig, wenn:** ein Testkonto registriert, ab- und wieder angemeldet, einmal mit falschem Passwort versucht, `/meine-anfragen` ohne Login aufgerufen.
 
-### 🔧 Issue 6 — Ausleihen anfragen
+### ✅ Issue 6 — Ausleihen anfragen
 **Ziel:** Studierende fragen einen Gegenstand zum Ausleihen an und können die Anfrage zurückziehen – damit Besitzer*innen sehen, wer ihn haben möchte.
 **Nicht im Umfang:** Anfrage annehmen oder ablehnen, Zeitraum wählen, Bezahlung.
 **Akzeptanzkriterien:**
@@ -72,7 +72,7 @@
 
 **Fertig, wenn:** alle Kriterien im Browser durchgeklickt, Zähler stimmt auch nach einem Reload.
 
-### 🔧 Issue 7 — Meine Anfragen
+### ✅ Issue 7 — Meine Anfragen
 **Ziel:** Unter `/meine-anfragen` sehen Studierende, was sie angefragt haben – damit sie den Überblick behalten.
 **Nicht im Umfang:** Status der Anfrage, Erinnerungen.
 **Akzeptanzkriterien:**
@@ -96,7 +96,7 @@
 
 ## Tag 2 — Übung 6: Gemeinsam (mit den Konten der anderen)
 
-### ⬜ Issue 9 — Zähler live
+### 🔧 Issue 9 — Zähler live
 **Ziel:** Der Zähler „Anfragen“ auf der Detailseite ändert sich ohne Neuladen, sobald jemand anderes anfragt oder zurückzieht – damit Besitzer*innen sofort sehen, dass jemand Interesse hat.
 **Nicht im Umfang:** Benachrichtigungen, Töne, Liste der Anfragenden.
 **Akzeptanzkriterien:**

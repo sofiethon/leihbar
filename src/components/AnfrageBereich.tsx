@@ -1,5 +1,6 @@
 import { Check } from "lucide-react";
 import { anfrageUmschalten } from "@/app/gegenstaende/[id]/actions";
+import AnfrageZaehler from "@/components/AnfrageZaehler";
 import type { AnfrageStatus } from "@/lib/anfragen";
 
 const knopf =
@@ -43,9 +44,7 @@ export default function AnfrageBereich({
           </button>
         </form>
       )}
-      <p className="text-muted">
-        Anfragen: <strong className="text-foreground">{anzahl}</strong>
-      </p>
+      <AnfrageZaehler key={anzahl} itemId={itemId} start={anzahl} />
     </div>
   );
 }
