@@ -170,7 +170,7 @@
 
 ## Neu — noch nicht priorisiert
 
-### 🔧 Issue 15 — Gegenstände merken
+### ✅ Issue 15 — Gegenstände merken
 **Ziel:** Angemeldete Studierende markieren Gegenstände mit einem Herz und finden sie unter „Gemerkt“ wieder – damit sie sich interessante Dinge für ein späteres Projekt aufheben können, ohne sofort anzufragen.
 **Nicht im Umfang:** Benachrichtigung, wenn ein gemerkter Gegenstand verliehen wird, Herz-Zähler für andere, Teilen der Merkliste, Merken ohne Konto.
 **Akzeptanzkriterien:**
