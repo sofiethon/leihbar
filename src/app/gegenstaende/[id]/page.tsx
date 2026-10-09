@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, MapPin, User } from "lucide-react";
+import AnfrageBereich from "@/components/AnfrageBereich";
 import GegenstandBild from "@/components/GegenstandBild";
+import { ladeAnfrageStatus } from "@/lib/anfragen";
 import { preisText } from "@/lib/format";
 import { ladeGegenstand } from "@/lib/gegenstaende";
 
@@ -23,6 +25,8 @@ export default async function GegenstandSeite({
   if (!gegenstand) {
     notFound();
   }
+
+  const anfrageStatus = await ladeAnfrageStatus(id);
 
   const { titel, kategorie, beschreibung, besitzer, ort, preisProTag, verfuegbar, bild } =
     gegenstand;
@@ -53,6 +57,7 @@ export default async function GegenstandSeite({
           </p>
           <h1 className="text-3xl font-bold leading-tight">{titel}</h1>
           <p className="text-lg font-medium">{preisText(preisProTag)}</p>
+          <AnfrageBereich itemId={id} verfuegbar={verfuegbar} status={anfrageStatus} />
           {!verfuegbar && (
             <p className="rounded-xl bg-accent-soft px-4 py-3 text-foreground">
               Dieser Gegenstand ist gerade verliehen.
