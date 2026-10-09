@@ -14,47 +14,48 @@ export default async function Home({ searchParams }: PageProps<"/">) {
 
   return (
     <main id="top" className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 py-8 sm:block">
-      <section aria-label="Willkommen" className="mb-12 grid grid-cols-2 gap-0.5 border-2 border-border bg-fuge sm:grid-cols-3">
-        <div
-          className="erscheinen platte col-span-2 flex flex-col gap-4 bg-card p-6 pb-8 sm:p-10"
-          style={{ "--i": 0 } as React.CSSProperties}
-        >
-          <h1 className="font-display text-[4rem] font-bold leading-[0.9] tracking-tight sm:text-8xl">leihbar.</h1>
-          <p className="font-display text-2xl font-light sm:text-3xl">leihen statt kaufen.</p>
-          <p className="max-w-md text-lg">
-            Abendkleid für den Ball, Akkuschrauber fürs WG-Regal, Zelt fürs
-            Festival – am Campus hat es schon jemand. Anbieten, finden, anfragen.
-          </p>
+      {/* Beim Scrollen fahren Gelb, Blau und Schwarz unter der weißen Platte hervor (siehe .rolle in globals.css). */}
+      <section aria-label="Willkommen" className="rolle mb-12">
+        <div className="buehne flex flex-col gap-1">
+          <div className="platte z-10 flex min-h-72 flex-1 flex-col justify-between gap-8 border-2 border-border bg-card p-6 sm:p-10">
+            <div className="flex flex-col gap-3">
+              <h1 className="font-display text-[4.75rem] font-bold leading-[0.9] tracking-tight sm:text-[9rem] lg:text-[12rem]">
+                leihbar.
+              </h1>
+              <p className="font-display text-2xl font-light sm:text-4xl">leihen statt kaufen.</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-1 sm:grid-cols-3">
+            <Link
+              href="/anbieten"
+              className="rolle-gelb platte z-[2] flex min-h-28 items-end border-2 border-border bg-accent p-4 font-display text-lg font-bold leading-tight sm:p-5 sm:text-xl transition hover:bg-foreground hover:text-card"
+            >
+              Gegenstand anbieten
+            </Link>
+            <a
+              href="#gegenstaende"
+              className="rolle-blau platte z-[2] flex min-h-28 items-end border-2 border-border bg-blau p-4 font-display text-lg font-bold leading-tight sm:p-5 sm:text-xl text-card transition hover:bg-foreground"
+            >
+              Gegenstände ansehen
+            </a>
+            <ul className="rolle-schwarz platte z-[1] col-span-2 flex flex-col justify-end gap-1 border-2 border-border bg-foreground p-5 font-display text-lg font-bold leading-tight text-card sm:col-span-1">
+              <li>Alles an einem Ort</li>
+              <li>Mit einem Klick anfragen</li>
+              <li>Leihen statt kaufen</li>
+            </ul>
+          </div>
         </div>
-        <Link
-          href="/anbieten"
-          style={{ "--i": 1 } as React.CSSProperties}
-          className="erscheinen platte flex min-h-32 items-end bg-accent p-5 font-display text-xl font-bold leading-tight transition hover:bg-foreground hover:text-card sm:col-span-1"
-        >
-          Gegenstand anbieten
-        </Link>
-        <a
-          href="#gegenstaende"
-          style={{ "--i": 2 } as React.CSSProperties}
-          className="erscheinen platte flex min-h-32 items-end bg-blau p-5 font-display text-xl font-bold leading-tight text-card transition hover:bg-foreground"
-        >
-          Gegenstände ansehen
-        </a>
       </section>
 
-      <section id="gegenstaende" aria-labelledby="gegenstaende-titel">
+      <section id="gegenstaende" aria-labelledby="gegenstaende-titel" className="scroll-mt-24">
         <h2 id="gegenstaende-titel" className="mb-4 font-display text-3xl font-bold sm:text-4xl">
           Das kannst du gerade ausleihen
         </h2>
         <KategorieFilter aktiv={aktiv} />
         {verfuegbar.length > 0 ? (
-          <ul className="grid grid-cols-2 gap-0.5 border-2 border-border bg-fuge lg:grid-cols-3">
-            {verfuegbar.map((gegenstand, index) => (
-              <li
-                key={gegenstand.id}
-                className="erscheinen"
-                style={{ "--i": Math.min(index + 3, 9) } as React.CSSProperties}
-              >
+          <ul className="grid grid-cols-2 gap-1 border-2 border-border bg-fuge lg:grid-cols-3">
+            {verfuegbar.map((gegenstand) => (
+              <li key={gegenstand.id}>
                 <GegenstandKarte gegenstand={gegenstand} gemerkt={gemerkt.has(gegenstand.id)} zurueck={zurueck} />
               </li>
             ))}

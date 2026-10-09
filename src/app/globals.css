@@ -55,21 +55,45 @@ body {
   background-position: 6px 6px, calc(100% - 6px) 6px, 6px calc(100% - 6px), calc(100% - 6px) calc(100% - 6px);
 }
 
-/* Die eine Bewegung: Die Platten werden beim Laden der Startseite von oben nach unten eingehängt. Die Reihenfolge steht in --i. */
-@keyframes einhaengen {
+/* Die eine Bewegung: Beim Scrollen fahren Gelb, Blau und Schwarz unter der weißen Platte hervor.
+   Die weiße Platte bleibt dabei stehen (sticky). Wer „Bewegung reduzieren“ wählt oder einen Browser
+   ohne Scroll-Animationen hat, sieht alle Platten sofort an ihrem Platz. */
+@keyframes hervorfahren {
   from {
-    opacity: 0;
-    transform: translateY(-20px);
+    transform: translateY(-50svh);
   }
   to {
-    opacity: 1;
     transform: none;
   }
 }
 
-.erscheinen {
-  animation: einhaengen 0.4s ease-out both;
-  animation-delay: calc(var(--i, 0) * 50ms);
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: scroll()) {
+    .rolle {
+      /* Bühne plus 60 Bildschirmhöhen-Prozent Scrollweg, in dem sie festgehalten wird. */
+      height: calc(100svh - 7.5rem + 60svh);
+    }
+    .buehne {
+      position: sticky;
+      top: 5.25rem; /* unter dem festen Header */
+      height: calc(100svh - 7.5rem);
+    }
+    .rolle-gelb,
+    .rolle-blau,
+    .rolle-schwarz {
+      animation: hervorfahren ease-out both;
+      animation-timeline: scroll(root);
+    }
+    .rolle-gelb {
+      animation-range: 3rem calc(3rem + 30svh);
+    }
+    .rolle-blau {
+      animation-range: calc(3rem + 5svh) calc(3rem + 35svh);
+    }
+    .rolle-schwarz {
+      animation-range: calc(3rem + 35svh) calc(3rem + 60svh);
+    }
+  }
 }
 
 /* Sichtbarer Rahmen für alle, die mit der Tastatur navigieren. Nicht entfernen, nur ersetzen. */

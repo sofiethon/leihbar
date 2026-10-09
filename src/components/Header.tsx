@@ -18,7 +18,7 @@ export default async function Header() {
     : { count: 0 };
 
   return (
-    <header className="border-b-2 border-border bg-background">
+    <header className="sticky top-0 z-30 border-b-2 border-border bg-background">
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3">
         <Link href="/" className="flex min-h-11 items-center border-2 border-border bg-rot px-3 font-display text-2xl font-bold tracking-tight text-card">
           leihbar.
