@@ -21,7 +21,7 @@ export async function createClient() {
             );
           } catch {
             // Aus einer Server Component dürfen keine Cookies gesetzt werden.
-            // Unkritisch, solange es noch keinen Login gibt (Issue 5).
+            // Unkritisch: Der Proxy (src/proxy.ts) hält die Anmeldung aktuell.
           }
         },
       },

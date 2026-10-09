@@ -67,7 +67,15 @@ export async function gegenstandAnbieten(
   }
 
   const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    redirect("/anmelden?weiter=%2Fanbieten");
+  }
+
   const { error } = await supabase.from("items").insert({
+    owner_id: user.id,
     titel: werte.titel,
     kategorie,
     beschreibung: werte.beschreibung,
