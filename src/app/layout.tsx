@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Josefin_Sans } from "next/font/google";
+import { MotionConfig } from "motion/react";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -18,9 +19,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="de" className={`${josefin.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-        <Header />
-        {children}
-        <Footer />
+        <MotionConfig reducedMotion="user">
+          <Header />
+          {children}
+          <Footer />
+        </MotionConfig>
       </body>
     </html>
   );
