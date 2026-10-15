@@ -1,5 +1,6 @@
 import Link from "next/link";
 import GegenstandKarte from "@/components/GegenstandKarte";
+import GegenstandListe from "@/components/GegenstandListe";
 import KategorieFilter from "@/components/KategorieFilter";
 import { kategorien } from "@/data/gegenstaende";
 import { ladeGemerkteIds } from "@/lib/favoriten";
@@ -9,7 +10,7 @@ export default async function Home({ searchParams }: PageProps<"/">) {
   const { kategorie } = await searchParams;
   // Nur eine bekannte Kategorie gilt als Filter; alles andere zeigt „Alle“.
   const aktiv = kategorien.find((name) => name === kategorie);
-  const [verfuegbar, gemerkt] = await Promise.all([ladeVerfuegbareGegenstaende(aktiv), ladeGemerkteIds()]);
+  const [verfuegbar, gemerkt] = await Promise.all([ladeVerfuegbareGegenstaende(), ladeGemerkteIds()]);
   const zurueck = aktiv ? `/?kategorie=${encodeURIComponent(aktiv)}` : "/";
 
   return (
@@ -50,22 +51,14 @@ export default async function Home({ searchParams }: PageProps<"/">) {
           Das kannst du gerade ausleihen
         </h2>
         <KategorieFilter aktiv={aktiv} />
-        {verfuegbar.length > 0 ? (
-          <ul className="grid grid-cols-2 gap-1 lg:grid-cols-3">
-            {verfuegbar.map((gegenstand) => (
-              <li key={gegenstand.id}>
-                <GegenstandKarte gegenstand={gegenstand} gemerkt={gemerkt.has(gegenstand.id)} zurueck={zurueck} />
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="border-2 border-dashed border-border bg-card p-8 text-center text-muted">
-            Gerade ist nichts zum Ausleihen da. Biete doch du etwas an.{" "}
-            <Link href="/anbieten" className="inline-flex min-h-11 items-center underline">
-              Gegenstand anbieten
-            </Link>
-          </p>
-        )}
+        <GegenstandListe
+          aktiv={aktiv}
+          eintraege={verfuegbar.map((gegenstand) => ({
+            id: gegenstand.id,
+            kategorie: gegenstand.kategorie,
+            karte: <GegenstandKarte gegenstand={gegenstand} gemerkt={gemerkt.has(gegenstand.id)} zurueck={zurueck} />,
+          }))}
+        />
       </section>
     </main>
   );

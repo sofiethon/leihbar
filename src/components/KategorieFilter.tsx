@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { motion, useReducedMotion } from "motion/react";
 import { kategorien, type Kategorie } from "@/data/gegenstaende";
 
 type Props = {
@@ -7,11 +10,24 @@ type Props = {
 };
 
 const basis =
-  "inline-flex min-h-11 items-center border-2 px-5 text-sm font-medium transition";
-const gewaehlt = "border-border bg-accent font-bold text-foreground";
-const ungewaehlt = "border-border bg-card text-foreground hover:bg-accent-soft";
+  "relative inline-flex min-h-11 items-center border-2 border-border px-5 text-sm font-medium transition";
+const gewaehlt = "bg-card font-bold text-foreground";
+const ungewaehlt = "bg-card text-foreground hover:bg-accent-soft";
 
 export default function KategorieFilter({ aktiv }: Props) {
+  const reduziert = useReducedMotion();
+  const uebergang = { duration: reduziert ? 0 : 0.3, ease: "easeOut" as const };
+
+  // Die gelbe Markierung liegt hinter dem Text des aktiven Filters und gleitet beim Wechsel mit.
+  const markierung = (
+    <motion.span
+      layoutId="filter-markierung"
+      transition={uebergang}
+      className="absolute -inset-0.5 bg-accent"
+      aria-hidden="true"
+    />
+  );
+
   return (
     <nav aria-label="Nach Kategorie filtern" className="mb-6">
       <ul className="flex flex-wrap gap-2">
@@ -22,7 +38,8 @@ export default function KategorieFilter({ aktiv }: Props) {
             aria-current={!aktiv ? "true" : undefined}
             className={`${basis} ${!aktiv ? gewaehlt : ungewaehlt}`}
           >
-            Alle
+            {!aktiv && markierung}
+            <span className="relative">Alle</span>
           </Link>
         </li>
         {kategorien.map((name) => (
@@ -33,7 +50,8 @@ export default function KategorieFilter({ aktiv }: Props) {
               aria-current={aktiv === name ? "true" : undefined}
               className={`${basis} ${aktiv === name ? gewaehlt : ungewaehlt}`}
             >
-              {name}
+              {aktiv === name && markierung}
+              <span className="relative">{name}</span>
             </Link>
           </li>
         ))}
