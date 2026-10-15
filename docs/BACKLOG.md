@@ -145,7 +145,7 @@
 
 **Fertig, wenn:** jede Kategorie angeklickt, schnell hin und her gewechselt, einmal mit „Bewegung reduzieren“ (DevTools → Rendering → prefers-reduced-motion: reduce) und einmal in Handybreite.
 
-### ⬜ Issue 13 — Anfragen ohne Warten
+### 🔧 Issue 13 — Anfragen ohne Warten
 **Ziel:** Button und Zähler reagieren sofort beim Klick, nicht erst nach der Antwort der Datenbank – damit sich die App schnell anfühlt; klappt das Speichern nicht, sieht man das.
 **Nicht im Umfang:** Töne, Vibration, Animationen auf dem Rest der Seite.
 **Akzeptanzkriterien:**

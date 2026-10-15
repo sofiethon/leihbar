@@ -4,8 +4,11 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
+/** Ergebnis von `anfrageUmschalten`: bei einem Fehler steht hier ein ganzer deutscher Satz. */
+export type AnfrageErgebnis = { fehler?: string };
+
 /** Fragt den Gegenstand an – oder zieht die Anfrage zurück, wenn sie schon besteht. */
-export async function anfrageUmschalten(itemId: string) {
+export async function anfrageUmschalten(itemId: string): Promise<AnfrageErgebnis> {
   const pfad = `/gegenstaende/${itemId}`;
   const supabase = await createClient();
   const {
@@ -23,7 +26,10 @@ export async function anfrageUmschalten(itemId: string) {
     .maybeSingle();
 
   if (bestehend) {
-    await supabase.from("requests").delete().eq("id", bestehend.id);
+    const { error } = await supabase.from("requests").delete().eq("id", bestehend.id);
+    if (error) {
+      return { fehler: "Das Zurückziehen hat nicht geklappt. Versuch es bitte gleich noch einmal." };
+    }
   } else {
     // Verleihbar ist nur, was nicht der eigenen Person gehört und gerade verfügbar ist.
     const { data: gegenstand } = await supabase
@@ -31,13 +37,18 @@ export async function anfrageUmschalten(itemId: string) {
       .select("owner_id, verfuegbar")
       .eq("id", itemId)
       .maybeSingle();
-    if (gegenstand && gegenstand.owner_id !== user.id && gegenstand.verfuegbar) {
-      await supabase.from("requests").insert({ item_id: itemId, user_id: user.id });
+    if (!gegenstand || gegenstand.owner_id === user.id || !gegenstand.verfuegbar) {
+      return { fehler: "Diesen Gegenstand kannst du gerade nicht anfragen." };
+    }
+    const { error } = await supabase.from("requests").insert({ item_id: itemId, user_id: user.id });
+    if (error) {
+      return { fehler: "Die Anfrage konnte nicht gespeichert werden. Versuch es bitte gleich noch einmal." };
     }
   }
 
   revalidatePath(pfad);
   revalidatePath("/meine-anfragen");
+  return {};
 }
 
 /** Besitzer*in nimmt eine Anfrage an oder lehnt sie ab (die Datenbank erlaubt das nur ihr). */
