@@ -96,7 +96,7 @@
 
 ## Tag 2 — Übung 6: Gemeinsam (mit den Konten der anderen)
 
-### 🔧 Issue 9 — Zähler live
+### ✅ Issue 9 — Zähler live
 **Ziel:** Der Zähler „Anfragen“ auf der Detailseite ändert sich ohne Neuladen, sobald jemand anderes anfragt oder zurückzieht – damit Besitzer*innen sofort sehen, dass jemand Interesse hat.
 **Nicht im Umfang:** Benachrichtigungen, Töne, Liste der Anfragenden.
 **Akzeptanzkriterien:**
@@ -107,7 +107,7 @@
 
 **Fertig, wenn:** die nächste Person in der Runde auf meiner Live-Adresse angefragt und zurückgezogen hat, während ich auf meinem Gerät zugesehen habe – einmal angemeldet, einmal abgemeldet.
 
-### 🔧 Issue 10 — Anfrage annehmen oder ablehnen
+### ✅ Issue 10 — Anfrage annehmen oder ablehnen
 **Ziel:** Besitzer*innen nehmen eine Anfrage an oder lehnen sie ab, und die anfragende Person sieht die Antwort – damit aus einer Anfrage eine Ausleihe wird.
 **Nicht im Umfang:** Zeitraum, Übergabe, Nachrichten, E-Mails; Beispiel-Gegenstände ohne Besitzer*in-Konto.
 **Akzeptanzkriterien:**
@@ -156,7 +156,7 @@
 
 **Fertig, wenn:** angefragt, zurückgezogen, neu geladen; den Fehlerfall einmal ausgelöst (DevTools → Network → „Offline“, dann klicken) und gesehen, dass der Zähler zurückspringt; danach wieder „No throttling“.
 
-### ⬜ Issue 14 — Erfolgsmoment beim Anbieten
+### ✅ Issue 14 — Erfolgsmoment beim Anbieten
 **Ziel:** Nach dem Speichern eines neuen Gegenstands sieht man deutlich, dass es geklappt hat, und findet ihn sofort in der Liste – damit Anbietende sicher sind, dass ihr Angebot online ist.
 **Nicht im Umfang:** Konfetti, Teilen, E-Mail an andere.
 **Akzeptanzkriterien:**

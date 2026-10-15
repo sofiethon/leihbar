@@ -74,7 +74,9 @@ export async function gegenstandAnbieten(
     redirect("/anmelden?weiter=%2Fanbieten");
   }
 
-  const { error } = await supabase.from("items").insert({
+  const { data: neu, error } = await supabase
+    .from("items")
+    .insert({
     owner_id: user.id,
     titel: werte.titel,
     kategorie,
@@ -82,9 +84,11 @@ export async function gegenstandAnbieten(
     ort: werte.ort,
     preis_pro_tag: preis,
     besitzer_name: werte.besitzer,
-  });
+  })
+    .select("id")
+    .single();
 
-  if (error) {
+  if (error || !neu) {
     return {
       fehler: { allgemein: "Das Speichern hat leider nicht geklappt. Versuch es bitte gleich noch einmal." },
       werte,
@@ -92,5 +96,6 @@ export async function gegenstandAnbieten(
   }
 
   revalidatePath("/");
-  redirect("/#gegenstaende");
+  // „neu“ löst Meldung und Hervorhebung aus; die Seite entfernt es danach wieder aus der Adresse.
+  redirect(`/?neu=${neu.id}#gegenstaende`);
 }

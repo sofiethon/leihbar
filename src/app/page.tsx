@@ -1,16 +1,19 @@
 import Link from "next/link";
 import GegenstandKarte from "@/components/GegenstandKarte";
 import GegenstandListe from "@/components/GegenstandListe";
+import ErfolgsMeldung from "@/components/ErfolgsMeldung";
 import KategorieFilter from "@/components/KategorieFilter";
 import { kategorien } from "@/data/gegenstaende";
 import { ladeGemerkteIds } from "@/lib/favoriten";
 import { ladeVerfuegbareGegenstaende } from "@/lib/gegenstaende";
 
 export default async function Home({ searchParams }: PageProps<"/">) {
-  const { kategorie } = await searchParams;
+  const { kategorie, neu } = await searchParams;
   // Nur eine bekannte Kategorie gilt als Filter; alles andere zeigt „Alle“.
   const aktiv = kategorien.find((name) => name === kategorie);
   const [verfuegbar, gemerkt] = await Promise.all([ladeVerfuegbareGegenstaende(), ladeGemerkteIds()]);
+  // Nur ein Gegenstand, der wirklich in der Liste steht, löst den Erfolgsmoment aus.
+  const neuId = typeof neu === "string" && verfuegbar.some((gegenstand) => gegenstand.id === neu) ? neu : undefined;
   const zurueck = aktiv ? `/?kategorie=${encodeURIComponent(aktiv)}` : "/";
 
   return (
@@ -46,6 +49,8 @@ export default async function Home({ searchParams }: PageProps<"/">) {
         </div>
       </section>
 
+      {neuId && <ErfolgsMeldung />}
+
       <section id="gegenstaende" aria-labelledby="gegenstaende-titel" className="scroll-mt-24">
         <h2 id="gegenstaende-titel" className="mb-4 font-display text-3xl font-bold sm:text-4xl">
           Das kannst du gerade ausleihen
@@ -53,6 +58,7 @@ export default async function Home({ searchParams }: PageProps<"/">) {
         <KategorieFilter aktiv={aktiv} />
         <GegenstandListe
           aktiv={aktiv}
+          neuId={neuId}
           eintraege={verfuegbar.map((gegenstand) => ({
             id: gegenstand.id,
             kategorie: gegenstand.kategorie,

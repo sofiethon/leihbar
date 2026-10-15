@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import type { Kategorie } from "@/data/gegenstaende";
@@ -16,10 +16,18 @@ type Props = {
   eintraege: Eintrag[];
   /** Aktuell gewählte Kategorie; ohne Angabe sind alle Karten sichtbar. */
   aktiv?: Kategorie;
+  /** Gerade angebotener Gegenstand: bekommt kurz einen Rahmen. */
+  neuId?: string;
 };
 
-export default function GegenstandListe({ eintraege, aktiv }: Props) {
+export default function GegenstandListe({ eintraege, aktiv, neuId }: Props) {
   const reduziert = useReducedMotion();
+  const [hervorgehoben, setHervorgehoben] = useState(neuId);
+  useEffect(() => {
+    if (!neuId) return;
+    const timer = setTimeout(() => setHervorgehoben(undefined), 3500);
+    return () => clearTimeout(timer);
+  }, [neuId]);
   const sichtbar = aktiv ? eintraege.filter((eintrag) => eintrag.kategorie === aktiv) : eintraege;
   // Höchstens 0,4 s; mit „Bewegung reduzieren“ sofort.
   const uebergang = { duration: reduziert ? 0 : 0.35, ease: "easeOut" as const };
@@ -46,8 +54,21 @@ export default function GegenstandListe({ eintraege, aktiv }: Props) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={uebergang}
+            className="relative"
           >
             {eintrag.karte}
+            <AnimatePresence>
+              {eintrag.id === hervorgehoben && (
+                <motion.span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 z-10 border-4 border-blau"
+                  initial={{ opacity: reduziert ? 1 : 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: reduziert ? 0 : 0.3 }}
+                />
+              )}
+            </AnimatePresence>
           </motion.li>
         ))}
       </AnimatePresence>
